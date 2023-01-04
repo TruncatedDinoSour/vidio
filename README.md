@@ -1,4 +1,4 @@
-# Vidio video format
+# vidio video format
 
 > its video, but simple
 

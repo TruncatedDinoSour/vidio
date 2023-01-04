@@ -24,9 +24,9 @@ typedef struct {
  */
 static void
 vidio_fdprintf(const int fd, const size_t buf_size, const char *fmt, ...) {
-    va_list va;
-    int write_count;
     char *buffer;
+    int write_count;
+    va_list va;
 
     if (!(buffer = malloc(buf_size)))
         return;
@@ -50,11 +50,7 @@ const volatile VidioHeader *vidio_read_header(const int fd) {
     static VidioHeader header;
 
     lseek(fd, 2, 0); /* ignores the 2 magic bytes */
-
-    if (read(fd, &header, sizeof(header)) <= 0)
-        return NULL;
-
-    return &header;
+    return read(fd, &header, sizeof(header)) <= 0 ? NULL : &header;
 }
 
 /*
@@ -70,8 +66,8 @@ VidioPixel *vidio_get_next_frame(const int fd,
     VidioPixel *frame = malloc((dim_bytes = dim * sizeof(*frame)));
 
     /* should wrap around to a very large number if returns -1 */
-    if ((unsigned long)read(fd, frame, dim_bytes) != dim_bytes) {
-        free(frame);
+    if (!frame || (unsigned long)read(fd, frame, dim_bytes) != dim_bytes) {
+        free(frame); /* malloc returns NULL on error and free() ignores NULL */
         return NULL;
     }
 
