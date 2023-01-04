@@ -1,0 +1,6 @@
+*.o
+.ccls-cache/
+.mypy_cache/
+*.elf
+*.vi
+frames/
