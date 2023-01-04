@@ -59,6 +59,16 @@ its not a widely supported, established format of video, i only
 added `fps` option for future when ill actually be implementing
 viewing video on some viewer, maybe `mpv` ? well see :)
 
+## still wanna see what you generated ?
+
+run this
+
+```sh
+$ mpv "mf://frames/*.ppm" -mf-fps <fps>
+```
+
+this will show you your whole video
+
 # lib
 
 see [include](/include) for the source code of the library :)
